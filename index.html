@@ -1,49 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8"/>
+    <title>React [RU] Tutorial v2</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <style>
+        .red {
+            color: #FF0000;
+        }
+
+        .none {
+            display: none;
+        }
+    </style>
 </head>
-
 <body>
-    <p>dsfsd</p>
-    <b>sdfsdfsd</b>sdfsdf<i>asdfasd</i>
-    <p>
-        Lorem ipsum dolor sit amet,
-        <i>consecteruer</i>
-        adipiscing elet.
-    </p>
+<div id="root"></div>
+<script type="text/babel">
 
-    <table border="">
-        <tr>
-            <th>Browser</th>
-            <th colspan="3">Internet Explorer</th>
-            <th colspan="3">Opera</th>
-            <th colspan="2">Firefox</th>
-        </tr>
-        <tr>
-            <th>Version</th>
-            <td rowspan="2">1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <th>6</th>
-            <td>7</td>
-            <td>8</td>
-        </tr>
-        <tr>
-            <th>Work</th>
-            <td>Yes</td>
-            <td>Yes</td>
-            <td>Yes</td>
-            <td>Yes</td>
-            <td>Yes</td>
-            <td>Yes</td>
-            <td>Yes</td>
-            <td>Yes</td>
-        </tr>
-    </table>
+    const myNews = [
+        {
+            id: 1, // добавили id
+            author: 'Саша Печкин',
+            text: 'В четверг, четвертого числа...'
+        },
+        {
+            id: 2,
+            author: 'Просто Вася',
+            text: 'Считаю, что $ должен стоить 35 рублей!'
+        },
+        {
+            id: 3,
+            author: 'Max Frontend',
+            text: 'Прошло 2 года с прошлых учебников, а $ так и не стоит 35'
+        },
+        {
+            id: 4,
+            author: 'Гость',
+            text: 'Бесплатно. Без смс, про реакт, заходи - https://maxpfrontend.ru'
+        }
+    ];
+
+    class News extends React.Component {
+        render() {
+            const {data} = this.props // аналогично записи const data = this.props.data
+            let newsTemplate
+
+            if (data.length) {
+                newsTemplate = data.map(function (item) {
+                    return (
+                        <div key={item.id}>
+                            <p className="news__author">{item.author}:</p>
+                            <p className="news__text">{item.text}</p>
+                        </div>
+                    )
+                })
+            } else {
+                newsTemplate = <p>К сожалению новостей нет</p>
+            }
+
+            return (
+                <div className="news">
+                    {newsTemplate}
+                    {
+                        data.length ? <strong>Всего новостей: {data.length}</strong> : null
+                    }
+                </div>
+            );
+        }
+    }
+
+    const Comments = () => {
+        return <p>Нет новостей - комментировать нечего.</p>
+    }
+
+    const App = () => {
+        return (
+            <React.Fragment>
+                <News data={myNews}/>
+                <Comments/>
+            </React.Fragment>
+        )
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById('root')
+    );
+
+</script>
+
 </body>
-
 </html>
